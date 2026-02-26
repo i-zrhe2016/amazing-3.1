@@ -17,46 +17,25 @@ TARGET_YEARLY_RETURN_PCT = 100.0
 TARGET_YEARLY_NET = INITIAL_BALANCE * (TARGET_YEARLY_RETURN_PCT / 100.0)
 
 
-PRESERVED_PARAMS: Dict[str, Any] = {
-    "totals": 60,
-    "max_spread": 40,
-    "close_buy_sell": False,
-    "homeopathy_close_all": True,
-    "homeopathy": False,
-    "money": 0.0,
-    "first_step": 35,
-    "min_distance": 155,
-    "two_min_distance": 95,
-    "step_trail_orders": 15,
-    "step": 160,
-    "two_step": 265,
-    "lot": 0.027,
-    "max_lot": 0.51,
-    "plus_lot": 0.003,
-    "k_lot": 1.085,
-    "digits_lot": 3,
-    "close_all": 2.74,
-    "profit_by_count": False,
-    "stop_profit": 4.49,
-    "stop_loss": 0.0,
-    "max_loss": 91089.5,
-    "max_loss_close_all": 49.4,
-    "open_mode": OpenMode.BAR,
-    "sleep_seconds": 30,
-    "check_margin_for_add_orders": False,
-}
+PRESERVED_PARAMS: Dict[str, Any] = {}
+
+TUNABLE_PARAM_NAMES = (
+    "lot",
+    "k_lot",
+    "max_lot",
+)
 
 
 def seed_param_candidates() -> List[Dict[str, Any]]:
     base = dict(PRESERVED_PARAMS)
     seeds = [base]
 
-    # 以当前稳健参数为核心，给出更激进但可控的变体用于冲击年化100%。
-    for lot, max_lot, k_lot, plus_lot in [
-        (0.032, 0.90, 1.10, 0.004),
-        (0.038, 1.20, 1.14, 0.005),
-        (0.045, 1.80, 1.18, 0.006),
-        (0.052, 2.50, 1.22, 0.007),
+    # Baseline + progressively aggressive position-sizing presets.
+    for lot, max_lot, k_lot in [
+        (0.020, 0.80, 1.12),
+        (0.032, 1.20, 1.18),
+        (0.045, 2.50, 1.24),
+        (0.060, 4.00, 1.30),
     ]:
         p = dict(base)
         p.update(
@@ -64,10 +43,6 @@ def seed_param_candidates() -> List[Dict[str, Any]]:
                 "lot": lot,
                 "max_lot": max_lot,
                 "k_lot": k_lot,
-                "plus_lot": plus_lot,
-                "check_margin_for_add_orders": True,
-                "stop_profit": 4.2,
-                "close_all": 2.4,
             }
         )
         seeds.append(p)
@@ -76,32 +51,9 @@ def seed_param_candidates() -> List[Dict[str, Any]]:
 
 def sample_params(rng: random.Random) -> Dict[str, Any]:
     return {
-        "totals": rng.randrange(25, 76, 5),
-        "max_spread": rng.randrange(26, 41, 2),
-        "close_buy_sell": rng.choice([True, False]),
-        "homeopathy_close_all": rng.choice([True, False]),
-        "homeopathy": rng.choice([False, True]),
-        "money": 0.0 if rng.random() < 0.9 else round(rng.uniform(20.0, 250.0), 1),
-        "first_step": rng.randrange(20, 81, 5),
-        "min_distance": rng.randrange(80, 201, 5),
-        "two_min_distance": rng.randrange(70, 221, 5),
-        "step_trail_orders": rng.randrange(4, 18),
-        "step": rng.randrange(100, 281, 5),
-        "two_step": rng.randrange(120, 321, 5),
         "lot": round(rng.uniform(0.020, 0.080), 3),
-        "max_lot": round(rng.uniform(0.8, 6.0), 2),
-        "plus_lot": round(rng.uniform(0.0, 0.020), 3),
         "k_lot": round(rng.uniform(1.08, 1.40), 3),
-        "digits_lot": 3,
-        "close_all": round(rng.uniform(0.8, 3.0), 2),
-        "profit_by_count": rng.choice([True, False]),
-        "stop_profit": round(rng.uniform(2.0, 12.0), 2),
-        "stop_loss": 0.0,
-        "max_loss": round(rng.uniform(50_000.0, 250_000.0), 1),
-        "max_loss_close_all": round(rng.uniform(20.0, 300.0), 1),
-        "open_mode": OpenMode.BAR,
-        "sleep_seconds": 30,
-        "check_margin_for_add_orders": rng.choice([True, True, False]),
+        "max_lot": round(rng.uniform(0.8, 6.0), 2),
     }
 
 
@@ -236,6 +188,7 @@ def main() -> None:
     best_target_agg: Dict[str, float] = {}
 
     print(f"data={data_path}")
+    print(f"Tunable params ({len(TUNABLE_PARAM_NAMES)}): {', '.join(TUNABLE_PARAM_NAMES)}")
     print(f"bars={len(bars)}, years={len(yearly_bars)}, trials={args.trials}")
 
     for i, p in enumerate(seed_param_candidates(), start=1):
@@ -279,7 +232,7 @@ def main() -> None:
         best_target_rank=best_target_rank,
     )
 
-    print("\n=== PRESERVED PARAMS (UNCHANGED) ===")
+    print("\n=== PRESERVED PARAMS (DEFAULTS) ===")
     print(PRESERVED_PARAMS)
     print("\n=== BEST OVERALL (TARGET-ORIENTED) ===")
     print(best_params)

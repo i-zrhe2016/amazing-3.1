@@ -1,17 +1,22 @@
 from __future__ import annotations
 
-from dataclasses import asdict
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Dict, List, Tuple
 import argparse
 import random
 
-from amazing31_python import Amazing31, Config, OpenMode, OrderType
+from amazing31_python import Amazing31, Config, OrderType
 from backtest_usdchf import (
     SimBroker,
     calc_max_drawdown,
     download_usdchf_5m,
     load_bars_from_csv,
+)
+
+TUNABLE_PARAM_NAMES = (
+    "lot",
+    "k_lot",
+    "max_lot",
 )
 
 
@@ -66,31 +71,9 @@ def score_stats(stats: Dict[str, float]) -> float:
 
 def sample_params(rng: random.Random) -> Dict[str, Any]:
     return {
-        "totals": rng.randrange(15, 51, 5),
-        "max_spread": rng.randrange(20, 36, 2),
-        "close_buy_sell": rng.choice([True, False]),
-        "homeopathy_close_all": rng.choice([True, False]),
-        "homeopathy": rng.choice([False, False, True]),
-        "money": 0.0 if rng.random() < 0.7 else round(rng.uniform(20.0, 150.0), 1),
-        "first_step": rng.randrange(25, 121, 5),
-        "min_distance": rng.randrange(40, 201, 5),
-        "two_min_distance": rng.randrange(50, 241, 5),
-        "step_trail_orders": rng.randrange(2, 16),
-        "step": rng.randrange(70, 261, 5),
-        "two_step": rng.randrange(80, 301, 5),
         "lot": round(rng.uniform(0.005, 0.02), 3),
-        "max_lot": round(rng.uniform(0.3, 2.0), 2),
-        "plus_lot": round(rng.uniform(0.0, 0.01), 3),
         "k_lot": round(rng.uniform(1.05, 1.28), 3),
-        "digits_lot": 3,
-        "close_all": round(rng.uniform(0.3, 2.0), 2),
-        "profit_by_count": rng.choice([True, False]),
-        "stop_profit": round(rng.uniform(1.0, 6.0), 2),
-        "stop_loss": 0.0,
-        "max_loss": round(rng.uniform(50_000.0, 200_000.0), 1),
-        "max_loss_close_all": round(rng.uniform(20.0, 250.0), 1),
-        "open_mode": OpenMode.BAR,
-        "sleep_seconds": 30,
+        "max_lot": round(rng.uniform(0.3, 2.0), 2),
     }
 
 
@@ -123,12 +106,13 @@ def main() -> None:
     if not bars_1y:
         raise RuntimeError("1Y bars is empty")
 
-    baseline_cfg = Config(symbol="USDCHF", magic=9453, open_mode=OpenMode.BAR, sleep_seconds=0)
+    baseline_cfg = Config(symbol="USDCHF", magic=9453)
     baseline_1y = run_with_config(bars_1y, baseline_cfg)
 
     rng = random.Random(args.seed)
     candidates: List[Tuple[float, Dict[str, Any], Dict[str, float]]] = []
 
+    print(f"Tunable params ({len(TUNABLE_PARAM_NAMES)}): {', '.join(TUNABLE_PARAM_NAMES)}")
     print(f"Running random search: trials={args.trials}, bars_1y={len(bars_1y)}")
     for i in range(1, args.trials + 1):
         params = sample_params(rng)

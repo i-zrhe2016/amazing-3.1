@@ -1,0 +1,619 @@
+{
+  "algorithm": "adaptive elite search + boundary refinement",
+  "best_any": {
+    "aggregate": {
+      "avg_net_profit": 695.0792806427735,
+      "blowup_years": 0.0,
+      "dd_limit_hit_years": 0.0,
+      "drawdown_limit_pct": 80.0,
+      "feasible_drawdown_limit": 1.0,
+      "min_free_margin": 5969.550534729751,
+      "min_year_net_profit": -145.96247944829156,
+      "sum_net_profit": 6950.792806427735,
+      "worst_year_max_drawdown_pct": 18.07571458964363,
+      "years_ran": 10.0
+    },
+    "params": {
+      "check_margin_for_add_orders": false,
+      "close_all": 0.35,
+      "close_buy_sell": true,
+      "digits_lot": 3,
+      "first_step": 55,
+      "homeopathy": false,
+      "homeopathy_close_all": true,
+      "k_lot": 1.268,
+      "lot": 0.012,
+      "max_loss": 45070.0,
+      "max_loss_close_all": 224.4,
+      "max_lot": 1.24,
+      "max_spread": 30,
+      "min_distance": 140,
+      "money": 0.0,
+      "open_mode": 1,
+      "plus_lot": 0.007,
+      "profit_by_count": false,
+      "sleep_seconds": 30,
+      "step": 270,
+      "step_trail_orders": 13,
+      "stop_loss": 0.0,
+      "stop_profit": 6.72,
+      "totals": 75,
+      "two_min_distance": 210,
+      "two_step": 270
+    },
+    "score": 6945.871660606597,
+    "yearly_results": [
+      {
+        "bars": 49536,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2017-02-27T23:55:00+00:00",
+        "final_balance": 11875.935979928268,
+        "max_drawdown_pct": 17.622259897929982,
+        "min_free_margin": 6761.58603715658,
+        "net_profit": 1875.9359799282684,
+        "start_utc": "2016-02-29T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 1
+      },
+      {
+        "bars": 66528,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2018-02-27T23:55:00+00:00",
+        "final_balance": 11117.263998265536,
+        "max_drawdown_pct": 8.881151553970154,
+        "min_free_margin": 8670.555752050552,
+        "net_profit": 1117.2639982655364,
+        "start_utc": "2017-02-28T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 2
+      },
+      {
+        "bars": 29952,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2019-02-27T23:55:00+00:00",
+        "final_balance": 9854.037520551708,
+        "max_drawdown_pct": 5.462198856490639,
+        "min_free_margin": 8979.588939523495,
+        "net_profit": -145.96247944829156,
+        "start_utc": "2018-02-28T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 3
+      },
+      {
+        "bars": 97344,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2020-02-27T23:55:00+00:00",
+        "final_balance": 10251.639332947143,
+        "max_drawdown_pct": 6.611932175419892,
+        "min_free_margin": 9030.648491730324,
+        "net_profit": 251.63933294714298,
+        "start_utc": "2019-03-02T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 4
+      },
+      {
+        "bars": 18144,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2021-02-24T23:55:00+00:00",
+        "final_balance": 10643.538676368808,
+        "max_drawdown_pct": 7.184313525998894,
+        "min_free_margin": 8987.744219484142,
+        "net_profit": 643.5386763688075,
+        "start_utc": "2020-02-28T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 5
+      },
+      {
+        "bars": 78624,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2022-02-26T23:55:00+00:00",
+        "final_balance": 10074.545464590257,
+        "max_drawdown_pct": 5.203692257008102,
+        "min_free_margin": 9288.349075312697,
+        "net_profit": 74.54546459025732,
+        "start_utc": "2021-03-05T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 6
+      },
+      {
+        "bars": 104256,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2023-02-26T23:55:00+00:00",
+        "final_balance": 10960.084227899073,
+        "max_drawdown_pct": 7.723672584378007,
+        "min_free_margin": 8657.783627315566,
+        "net_profit": 960.0842278990731,
+        "start_utc": "2022-03-01T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 7
+      },
+      {
+        "bars": 49536,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2024-02-26T23:55:00+00:00",
+        "final_balance": 11114.508468452954,
+        "max_drawdown_pct": 2.2106117003981423,
+        "min_free_margin": 9657.251434209633,
+        "net_profit": 1114.5084684529538,
+        "start_utc": "2023-02-27T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 8
+      },
+      {
+        "bars": 97056,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2025-02-25T23:55:00+00:00",
+        "final_balance": 10528.295926886723,
+        "max_drawdown_pct": 8.559773728135037,
+        "min_free_margin": 8226.946543663129,
+        "net_profit": 528.2959268867235,
+        "start_utc": "2024-02-27T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 9
+      },
+      {
+        "bars": 104256,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2026-02-25T23:55:00+00:00",
+        "final_balance": 10530.943210537263,
+        "max_drawdown_pct": 18.07571458964363,
+        "min_free_margin": 5969.550534729751,
+        "net_profit": 530.9432105372634,
+        "start_utc": "2025-02-26T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 10
+      }
+    ]
+  },
+  "best_feasible": {
+    "aggregate": {
+      "avg_net_profit": 695.0792806427735,
+      "blowup_years": 0.0,
+      "dd_limit_hit_years": 0.0,
+      "drawdown_limit_pct": 80.0,
+      "feasible_drawdown_limit": 1.0,
+      "min_free_margin": 5969.550534729751,
+      "min_year_net_profit": -145.96247944829156,
+      "sum_net_profit": 6950.792806427735,
+      "worst_year_max_drawdown_pct": 18.07571458964363,
+      "years_ran": 10.0
+    },
+    "params": {
+      "check_margin_for_add_orders": false,
+      "close_all": 0.35,
+      "close_buy_sell": true,
+      "digits_lot": 3,
+      "first_step": 55,
+      "homeopathy": false,
+      "homeopathy_close_all": true,
+      "k_lot": 1.268,
+      "lot": 0.012,
+      "max_loss": 45070.0,
+      "max_loss_close_all": 224.4,
+      "max_lot": 1.24,
+      "max_spread": 30,
+      "min_distance": 140,
+      "money": 0.0,
+      "open_mode": 1,
+      "plus_lot": 0.007,
+      "profit_by_count": false,
+      "sleep_seconds": 30,
+      "step": 270,
+      "step_trail_orders": 13,
+      "stop_loss": 0.0,
+      "stop_profit": 6.72,
+      "totals": 75,
+      "two_min_distance": 210,
+      "two_step": 270
+    },
+    "score": 6945.871660606597,
+    "yearly_results": [
+      {
+        "bars": 49536,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2017-02-27T23:55:00+00:00",
+        "final_balance": 11875.935979928268,
+        "max_drawdown_pct": 17.622259897929982,
+        "min_free_margin": 6761.58603715658,
+        "net_profit": 1875.9359799282684,
+        "start_utc": "2016-02-29T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 1
+      },
+      {
+        "bars": 66528,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2018-02-27T23:55:00+00:00",
+        "final_balance": 11117.263998265536,
+        "max_drawdown_pct": 8.881151553970154,
+        "min_free_margin": 8670.555752050552,
+        "net_profit": 1117.2639982655364,
+        "start_utc": "2017-02-28T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 2
+      },
+      {
+        "bars": 29952,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2019-02-27T23:55:00+00:00",
+        "final_balance": 9854.037520551708,
+        "max_drawdown_pct": 5.462198856490639,
+        "min_free_margin": 8979.588939523495,
+        "net_profit": -145.96247944829156,
+        "start_utc": "2018-02-28T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 3
+      },
+      {
+        "bars": 97344,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2020-02-27T23:55:00+00:00",
+        "final_balance": 10251.639332947143,
+        "max_drawdown_pct": 6.611932175419892,
+        "min_free_margin": 9030.648491730324,
+        "net_profit": 251.63933294714298,
+        "start_utc": "2019-03-02T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 4
+      },
+      {
+        "bars": 18144,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2021-02-24T23:55:00+00:00",
+        "final_balance": 10643.538676368808,
+        "max_drawdown_pct": 7.184313525998894,
+        "min_free_margin": 8987.744219484142,
+        "net_profit": 643.5386763688075,
+        "start_utc": "2020-02-28T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 5
+      },
+      {
+        "bars": 78624,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2022-02-26T23:55:00+00:00",
+        "final_balance": 10074.545464590257,
+        "max_drawdown_pct": 5.203692257008102,
+        "min_free_margin": 9288.349075312697,
+        "net_profit": 74.54546459025732,
+        "start_utc": "2021-03-05T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 6
+      },
+      {
+        "bars": 104256,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2023-02-26T23:55:00+00:00",
+        "final_balance": 10960.084227899073,
+        "max_drawdown_pct": 7.723672584378007,
+        "min_free_margin": 8657.783627315566,
+        "net_profit": 960.0842278990731,
+        "start_utc": "2022-03-01T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 7
+      },
+      {
+        "bars": 49536,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2024-02-26T23:55:00+00:00",
+        "final_balance": 11114.508468452954,
+        "max_drawdown_pct": 2.2106117003981423,
+        "min_free_margin": 9657.251434209633,
+        "net_profit": 1114.5084684529538,
+        "start_utc": "2023-02-27T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 8
+      },
+      {
+        "bars": 97056,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2025-02-25T23:55:00+00:00",
+        "final_balance": 10528.295926886723,
+        "max_drawdown_pct": 8.559773728135037,
+        "min_free_margin": 8226.946543663129,
+        "net_profit": 528.2959268867235,
+        "start_utc": "2024-02-27T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 9
+      },
+      {
+        "bars": 104256,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2026-02-25T23:55:00+00:00",
+        "final_balance": 10530.943210537263,
+        "max_drawdown_pct": 18.07571458964363,
+        "min_free_margin": 5969.550534729751,
+        "net_profit": 530.9432105372634,
+        "start_utc": "2025-02-26T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 10
+      }
+    ]
+  },
+  "chosen_boundaries": {
+    "bool_probs": {
+      "check_margin_for_add_orders": 0.1,
+      "close_buy_sell": 0.5,
+      "homeopathy": 0.1,
+      "homeopathy_close_all": 0.9,
+      "profit_by_count": 0.1
+    },
+    "evaluated": 24,
+    "global_trials": 10,
+    "local_trials": 14,
+    "numeric": {
+      "close_all": [
+        0.3,
+        3.3375000000000004
+      ],
+      "first_step": [
+        45.4,
+        64.6
+      ],
+      "k_lot": [
+        1.05,
+        1.31375
+      ],
+      "lot": [
+        0.005,
+        0.029599999999999998
+      ],
+      "max_loss": [
+        40000.0,
+        115890.0
+      ],
+      "max_loss_close_all": [
+        20.0,
+        268.15
+      ],
+      "max_lot": [
+        0.502,
+        1.688
+      ],
+      "max_spread": [
+        27.5,
+        42.5
+      ],
+      "min_distance": [
+        103.2,
+        156.8
+      ],
+      "money": [
+        0.0,
+        20.0
+      ],
+      "plus_lot": [
+        0.0006000000000000003,
+        0.0094
+      ],
+      "step": [
+        188.4,
+        291.6
+      ],
+      "step_trail_orders": [
+        11.72,
+        16.28
+      ],
+      "stop_profit": [
+        3.45,
+        7.76
+      ],
+      "totals": [
+        37.5,
+        80.0
+      ],
+      "two_min_distance": [
+        150.8,
+        229.2
+      ],
+      "two_step": [
+        227.6,
+        292.4
+      ]
+    }
+  },
+  "data_file": "download/audnzd-m5-bid-2006-02-26-2026-02-26-merged.csv",
+  "drawdown_limit_pct": 80.0,
+  "feasible_found": true,
+  "generated_at_utc": "2026-02-26T09:15:27.906687166+00:00",
+  "objective": "maximize profit on AUDNZD with worst drawdown < 80.00%",
+  "seed": 20260226,
+  "selected_result": {
+    "aggregate": {
+      "avg_net_profit": 695.0792806427735,
+      "blowup_years": 0.0,
+      "dd_limit_hit_years": 0.0,
+      "drawdown_limit_pct": 80.0,
+      "feasible_drawdown_limit": 1.0,
+      "min_free_margin": 5969.550534729751,
+      "min_year_net_profit": -145.96247944829156,
+      "sum_net_profit": 6950.792806427735,
+      "worst_year_max_drawdown_pct": 18.07571458964363,
+      "years_ran": 10.0
+    },
+    "params": {
+      "check_margin_for_add_orders": false,
+      "close_all": 0.35,
+      "close_buy_sell": true,
+      "digits_lot": 3,
+      "first_step": 55,
+      "homeopathy": false,
+      "homeopathy_close_all": true,
+      "k_lot": 1.268,
+      "lot": 0.012,
+      "max_loss": 45070.0,
+      "max_loss_close_all": 224.4,
+      "max_lot": 1.24,
+      "max_spread": 30,
+      "min_distance": 140,
+      "money": 0.0,
+      "open_mode": 1,
+      "plus_lot": 0.007,
+      "profit_by_count": false,
+      "sleep_seconds": 30,
+      "step": 270,
+      "step_trail_orders": 13,
+      "stop_loss": 0.0,
+      "stop_profit": 6.72,
+      "totals": 75,
+      "two_min_distance": 210,
+      "two_step": 270
+    },
+    "score": 6945.871660606597,
+    "yearly_results": [
+      {
+        "bars": 49536,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2017-02-27T23:55:00+00:00",
+        "final_balance": 11875.935979928268,
+        "max_drawdown_pct": 17.622259897929982,
+        "min_free_margin": 6761.58603715658,
+        "net_profit": 1875.9359799282684,
+        "start_utc": "2016-02-29T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 1
+      },
+      {
+        "bars": 66528,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2018-02-27T23:55:00+00:00",
+        "final_balance": 11117.263998265536,
+        "max_drawdown_pct": 8.881151553970154,
+        "min_free_margin": 8670.555752050552,
+        "net_profit": 1117.2639982655364,
+        "start_utc": "2017-02-28T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 2
+      },
+      {
+        "bars": 29952,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2019-02-27T23:55:00+00:00",
+        "final_balance": 9854.037520551708,
+        "max_drawdown_pct": 5.462198856490639,
+        "min_free_margin": 8979.588939523495,
+        "net_profit": -145.96247944829156,
+        "start_utc": "2018-02-28T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 3
+      },
+      {
+        "bars": 97344,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2020-02-27T23:55:00+00:00",
+        "final_balance": 10251.639332947143,
+        "max_drawdown_pct": 6.611932175419892,
+        "min_free_margin": 9030.648491730324,
+        "net_profit": 251.63933294714298,
+        "start_utc": "2019-03-02T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 4
+      },
+      {
+        "bars": 18144,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2021-02-24T23:55:00+00:00",
+        "final_balance": 10643.538676368808,
+        "max_drawdown_pct": 7.184313525998894,
+        "min_free_margin": 8987.744219484142,
+        "net_profit": 643.5386763688075,
+        "start_utc": "2020-02-28T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 5
+      },
+      {
+        "bars": 78624,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2022-02-26T23:55:00+00:00",
+        "final_balance": 10074.545464590257,
+        "max_drawdown_pct": 5.203692257008102,
+        "min_free_margin": 9288.349075312697,
+        "net_profit": 74.54546459025732,
+        "start_utc": "2021-03-05T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 6
+      },
+      {
+        "bars": 104256,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2023-02-26T23:55:00+00:00",
+        "final_balance": 10960.084227899073,
+        "max_drawdown_pct": 7.723672584378007,
+        "min_free_margin": 8657.783627315566,
+        "net_profit": 960.0842278990731,
+        "start_utc": "2022-03-01T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 7
+      },
+      {
+        "bars": 49536,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2024-02-26T23:55:00+00:00",
+        "final_balance": 11114.508468452954,
+        "max_drawdown_pct": 2.2106117003981423,
+        "min_free_margin": 9657.251434209633,
+        "net_profit": 1114.5084684529538,
+        "start_utc": "2023-02-27T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 8
+      },
+      {
+        "bars": 97056,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2025-02-25T23:55:00+00:00",
+        "final_balance": 10528.295926886723,
+        "max_drawdown_pct": 8.559773728135037,
+        "min_free_margin": 8226.946543663129,
+        "net_profit": 528.2959268867235,
+        "start_utc": "2024-02-27T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 9
+      },
+      {
+        "bars": 104256,
+        "blew_up": false,
+        "dd_limit_hit": false,
+        "end_utc": "2026-02-25T23:55:00+00:00",
+        "final_balance": 10530.943210537263,
+        "max_drawdown_pct": 18.07571458964363,
+        "min_free_margin": 5969.550534729751,
+        "net_profit": 530.9432105372634,
+        "start_utc": "2025-02-26T00:00:00+00:00",
+        "stop_time_utc": "-",
+        "year_idx": 10
+      }
+    ]
+  },
+  "symbol": "AUDNZD",
+  "trials": 24,
+  "years": 10
+}

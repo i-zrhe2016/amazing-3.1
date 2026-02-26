@@ -48,95 +48,27 @@ def split_into_year_windows(bars: List[Bar], years: int = 10) -> List[List[Bar]]
     return windows
 
 
+TUNABLE_PARAM_NAMES = (
+    "lot",
+    "k_lot",
+    "max_lot",
+)
+
+
 def sample_params(rng: random.Random) -> Dict[str, Any]:
     return {
-        "totals": rng.randrange(20, 71, 5),
-        "max_spread": rng.randrange(24, 41, 2),
-        "close_buy_sell": rng.choice([True, False]),
-        "homeopathy_close_all": rng.choice([True, False]),
-        "homeopathy": rng.choice([False, False, True]),
-        "money": 0.0 if rng.random() < 0.8 else round(rng.uniform(20.0, 250.0), 1),
-        "first_step": rng.randrange(25, 121, 5),
-        "min_distance": rng.randrange(40, 201, 5),
-        "two_min_distance": rng.randrange(60, 241, 5),
-        "step_trail_orders": rng.randrange(2, 16),
-        "step": rng.randrange(70, 261, 5),
-        "two_step": rng.randrange(80, 301, 5),
-        "lot": round(rng.uniform(0.005, 0.030), 3),
-        "max_lot": round(rng.uniform(0.4, 2.5), 2),
-        "plus_lot": round(rng.uniform(0.0, 0.015), 3),
-        "k_lot": round(rng.uniform(1.05, 1.32), 3),
-        "digits_lot": 3,
-        "close_all": round(rng.uniform(0.3, 2.8), 2),
-        "profit_by_count": rng.choice([True, False]),
-        "stop_profit": round(rng.uniform(1.0, 8.0), 2),
-        "stop_loss": 0.0,
-        "max_loss": round(rng.uniform(60_000.0, 220_000.0), 1),
-        "max_loss_close_all": round(rng.uniform(20.0, 250.0), 1),
-        "open_mode": OpenMode.BAR,
-        "sleep_seconds": 30,
-        "check_margin_for_add_orders": rng.choice([True, True, False]),
+        "lot": round(rng.uniform(0.002, 0.020), 3),
+        "k_lot": round(rng.uniform(1.01, 1.20), 3),
+        "max_lot": round(rng.uniform(0.20, 1.50), 2),
     }
 
 
 def seed_param_candidates() -> List[Dict[str, Any]]:
     return [
-        {
-            "totals": 20,
-            "max_spread": 36,
-            "close_buy_sell": False,
-            "homeopathy_close_all": False,
-            "homeopathy": False,
-            "money": 0.0,
-            "first_step": 115,
-            "min_distance": 170,
-            "two_min_distance": 210,
-            "step_trail_orders": 12,
-            "step": 245,
-            "two_step": 110,
-            "lot": 0.022,
-            "max_lot": 1.98,
-            "plus_lot": 0.013,
-            "k_lot": 1.27,
-            "digits_lot": 3,
-            "close_all": 2.32,
-            "profit_by_count": False,
-            "stop_profit": 7.43,
-            "stop_loss": 0.0,
-            "max_loss": 98076.4,
-            "max_loss_close_all": 44.1,
-            "open_mode": OpenMode.BAR,
-            "sleep_seconds": 30,
-            "check_margin_for_add_orders": False,
-        },
-        {
-            "totals": 20,
-            "max_spread": 36,
-            "close_buy_sell": False,
-            "homeopathy_close_all": False,
-            "homeopathy": False,
-            "money": 0.0,
-            "first_step": 115,
-            "min_distance": 170,
-            "two_min_distance": 210,
-            "step_trail_orders": 12,
-            "step": 245,
-            "two_step": 110,
-            "lot": 0.020,
-            "max_lot": 1.50,
-            "plus_lot": 0.010,
-            "k_lot": 1.24,
-            "digits_lot": 3,
-            "close_all": 2.20,
-            "profit_by_count": False,
-            "stop_profit": 7.20,
-            "stop_loss": 0.0,
-            "max_loss": 100000.0,
-            "max_loss_close_all": 40.0,
-            "open_mode": OpenMode.BAR,
-            "sleep_seconds": 30,
-            "check_margin_for_add_orders": True,
-        },
+        {},
+        {"lot": 0.003, "k_lot": 1.02, "max_lot": 0.25},
+        {"lot": 0.005, "k_lot": 1.05, "max_lot": 0.40},
+        {"lot": 0.008, "k_lot": 1.08, "max_lot": 0.80},
     ]
 
 
@@ -332,6 +264,7 @@ def main() -> None:
     feasible_count = 0
 
     print(f"data={data_path}")
+    print(f"Tunable params ({len(TUNABLE_PARAM_NAMES)}): {', '.join(TUNABLE_PARAM_NAMES)}")
     print(f"bars={len(bars)}, years={len(yearly_bars)}, trials={args.trials}")
     for idx, params in enumerate(seed_param_candidates(), start=1):
         score, year_results, agg = evaluate_params(params, yearly_bars)
