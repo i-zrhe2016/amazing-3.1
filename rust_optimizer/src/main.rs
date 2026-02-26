@@ -1,3 +1,5 @@
+mod amazing31_mt4;
+
 use std::cmp::Ordering;
 use std::collections::{BTreeMap, HashMap, HashSet, VecDeque};
 use std::fs;
@@ -1631,6 +1633,7 @@ fn select_merged_file(symbol: &str, start_d: NaiveDate, end_d: NaiveDate) -> Res
     bail!("no merged file found in download/ for symbol {symbol}")
 }
 
+#[allow(dead_code)]
 #[derive(Clone, Copy, Debug)]
 enum ParamKind {
     Int {
@@ -1666,87 +1669,10 @@ struct CandidateEval {
 fn param_specs() -> Vec<ParamSpec> {
     vec![
         ParamSpec {
-            name: "totals",
-            kind: ParamKind::Int {
-                low: 20,
-                high: 80,
-                step: 5,
-            },
-        },
-        ParamSpec {
-            name: "max_spread",
-            kind: ParamKind::Int {
-                low: 20,
-                high: 50,
-                step: 2,
-            },
-        },
-        ParamSpec {
-            name: "close_buy_sell",
-            kind: ParamKind::Bool { p_true: 0.5 },
-        },
-        ParamSpec {
-            name: "homeopathy_close_all",
-            kind: ParamKind::Bool { p_true: 0.35 },
-        },
-        ParamSpec {
-            name: "homeopathy",
-            kind: ParamKind::Bool { p_true: 0.25 },
-        },
-        ParamSpec {
-            name: "money",
-            kind: ParamKind::Float {
-                low: 0.0,
-                high: 250.0,
-                step: 0.1,
-                precision: 1,
-            },
-        },
-        ParamSpec {
-            name: "first_step",
-            kind: ParamKind::Int {
-                low: 20,
-                high: 140,
-                step: 5,
-            },
-        },
-        ParamSpec {
-            name: "min_distance",
-            kind: ParamKind::Int {
-                low: 30,
-                high: 240,
-                step: 5,
-            },
-        },
-        ParamSpec {
-            name: "two_min_distance",
-            kind: ParamKind::Int {
-                low: 40,
-                high: 280,
-                step: 5,
-            },
-        },
-        ParamSpec {
-            name: "step_trail_orders",
-            kind: ParamKind::Int {
-                low: 2,
-                high: 18,
-                step: 1,
-            },
-        },
-        ParamSpec {
             name: "step",
             kind: ParamKind::Int {
                 low: 70,
                 high: 340,
-                step: 5,
-            },
-        },
-        ParamSpec {
-            name: "two_step",
-            kind: ParamKind::Int {
-                low: 80,
-                high: 360,
                 step: 5,
             },
         },
@@ -1760,24 +1686,6 @@ fn param_specs() -> Vec<ParamSpec> {
             },
         },
         ParamSpec {
-            name: "max_lot",
-            kind: ParamKind::Float {
-                low: 0.40,
-                high: 6.0,
-                step: 0.01,
-                precision: 2,
-            },
-        },
-        ParamSpec {
-            name: "plus_lot",
-            kind: ParamKind::Float {
-                low: 0.0,
-                high: 0.030,
-                step: 0.001,
-                precision: 3,
-            },
-        },
-        ParamSpec {
             name: "k_lot",
             kind: ParamKind::Float {
                 low: 1.05,
@@ -1785,50 +1693,6 @@ fn param_specs() -> Vec<ParamSpec> {
                 step: 0.001,
                 precision: 3,
             },
-        },
-        ParamSpec {
-            name: "close_all",
-            kind: ParamKind::Float {
-                low: 0.3,
-                high: 4.0,
-                step: 0.01,
-                precision: 2,
-            },
-        },
-        ParamSpec {
-            name: "profit_by_count",
-            kind: ParamKind::Bool { p_true: 0.5 },
-        },
-        ParamSpec {
-            name: "stop_profit",
-            kind: ParamKind::Float {
-                low: 1.0,
-                high: 14.0,
-                step: 0.01,
-                precision: 2,
-            },
-        },
-        ParamSpec {
-            name: "max_loss",
-            kind: ParamKind::Float {
-                low: 40_000.0,
-                high: 350_000.0,
-                step: 10.0,
-                precision: 1,
-            },
-        },
-        ParamSpec {
-            name: "max_loss_close_all",
-            kind: ParamKind::Float {
-                low: 20.0,
-                high: 350.0,
-                step: 0.1,
-                precision: 1,
-            },
-        },
-        ParamSpec {
-            name: "check_margin_for_add_orders",
-            kind: ParamKind::Bool { p_true: 0.75 },
         },
     ]
 }
@@ -1861,55 +1725,24 @@ fn base_bool_probs(specs: &[ParamSpec]) -> HashMap<&'static str, f64> {
 
 fn seed_candidates() -> Vec<Map<String, Value>> {
     let mut base = Map::new();
-    base.insert("totals".to_string(), Value::from(60));
-    base.insert("max_spread".to_string(), Value::from(40));
-    base.insert("close_buy_sell".to_string(), Value::from(false));
-    base.insert("homeopathy_close_all".to_string(), Value::from(true));
-    base.insert("homeopathy".to_string(), Value::from(false));
-    base.insert("money".to_string(), Value::from(0.0));
-    base.insert("first_step".to_string(), Value::from(35));
-    base.insert("min_distance".to_string(), Value::from(155));
-    base.insert("two_min_distance".to_string(), Value::from(95));
-    base.insert("step_trail_orders".to_string(), Value::from(15));
-    base.insert("step".to_string(), Value::from(160));
-    base.insert("two_step".to_string(), Value::from(265));
-    base.insert("lot".to_string(), Value::from(0.027));
-    base.insert("max_lot".to_string(), Value::from(0.51));
-    base.insert("plus_lot".to_string(), Value::from(0.003));
-    base.insert("k_lot".to_string(), Value::from(1.085));
-    base.insert("close_all".to_string(), Value::from(2.74));
-    base.insert("profit_by_count".to_string(), Value::from(false));
-    base.insert("stop_profit".to_string(), Value::from(4.49));
-    base.insert("max_loss".to_string(), Value::from(91089.5));
-    base.insert("max_loss_close_all".to_string(), Value::from(49.4));
-    base.insert(
-        "check_margin_for_add_orders".to_string(),
-        Value::from(false),
-    );
+    base.insert("step".to_string(), Value::from(100));
+    base.insert("lot".to_string(), Value::from(0.01));
+    base.insert("k_lot".to_string(), Value::from(1.3));
 
     let mut s1 = base.clone();
-    s1.insert("lot".to_string(), Value::from(0.040));
-    s1.insert("max_lot".to_string(), Value::from(1.20));
-    s1.insert("plus_lot".to_string(), Value::from(0.006));
-    s1.insert("k_lot".to_string(), Value::from(1.140));
-    s1.insert("check_margin_for_add_orders".to_string(), Value::from(true));
+    s1.insert("step".to_string(), Value::from(130));
+    s1.insert("lot".to_string(), Value::from(0.02));
+    s1.insert("k_lot".to_string(), Value::from(1.18));
 
     let mut s2 = base.clone();
-    s2.insert("lot".to_string(), Value::from(0.055));
-    s2.insert("max_lot".to_string(), Value::from(2.20));
-    s2.insert("plus_lot".to_string(), Value::from(0.008));
-    s2.insert("k_lot".to_string(), Value::from(1.180));
-    s2.insert("close_all".to_string(), Value::from(2.20));
+    s2.insert("step".to_string(), Value::from(80));
+    s2.insert("lot".to_string(), Value::from(0.008));
+    s2.insert("k_lot".to_string(), Value::from(1.35));
 
     let mut s3 = base.clone();
-    s3.insert("totals".to_string(), Value::from(45));
-    s3.insert("first_step".to_string(), Value::from(55));
-    s3.insert("min_distance".to_string(), Value::from(120));
-    s3.insert("two_min_distance".to_string(), Value::from(170));
-    s3.insert("step".to_string(), Value::from(210));
-    s3.insert("two_step".to_string(), Value::from(250));
-    s3.insert("lot".to_string(), Value::from(0.022));
-    s3.insert("max_lot".to_string(), Value::from(0.95));
+    s3.insert("step".to_string(), Value::from(180));
+    s3.insert("lot".to_string(), Value::from(0.015));
+    s3.insert("k_lot".to_string(), Value::from(1.10));
 
     vec![base, s1, s2, s3]
 }
@@ -2405,10 +2238,47 @@ fn optimize_params(
 }
 
 fn add_fixed_params(p: &mut Map<String, Value>) {
-    p.insert("digits_lot".to_string(), Value::from(3));
-    p.insert("open_mode".to_string(), Value::from(1));
+    // Amazing3.1.mq4.bak defaults (all non-optimized params are pinned here).
+    p.insert("on_top_not_buy_first".to_string(), Value::from(0.0));
+    p.insert("on_under_not_sell_first".to_string(), Value::from(0.0));
+    p.insert("on_top_not_buy_add".to_string(), Value::from(0.0));
+    p.insert("on_under_not_sell_add".to_string(), Value::from(0.0));
+
+    p.insert("limit_start_time".to_string(), Value::from("00:00"));
+    p.insert("limit_stop_time".to_string(), Value::from("24:00"));
+    p.insert("ea_start_time".to_string(), Value::from("00:00"));
+    p.insert("ea_stop_time".to_string(), Value::from("24:00"));
+
+    p.insert("close_buy_sell".to_string(), Value::from(true));
+    p.insert("homeopathy_close_all".to_string(), Value::from(true));
+    p.insert("homeopathy".to_string(), Value::from(false));
+    p.insert("over".to_string(), Value::from(false));
+    p.insert("next_time".to_string(), Value::from(0));
+    p.insert("money".to_string(), Value::from(0.0));
+
+    p.insert("first_step".to_string(), Value::from(30));
+    p.insert("min_distance".to_string(), Value::from(60));
+    p.insert("two_min_distance".to_string(), Value::from(60));
+    p.insert("step_trail_orders".to_string(), Value::from(5));
+    p.insert("two_step".to_string(), Value::from(100));
+
+    p.insert("max_loss".to_string(), Value::from(100_000.0));
+    p.insert("max_loss_close_all".to_string(), Value::from(50.0));
+    p.insert("max_lot".to_string(), Value::from(10.0));
+    p.insert("plus_lot".to_string(), Value::from(0.0));
+    p.insert("digits_lot".to_string(), Value::from(2));
+    p.insert("close_all".to_string(), Value::from(0.5));
+    p.insert("profit_by_count".to_string(), Value::from(true));
+    p.insert("stop_profit".to_string(), Value::from(2.0));
+
+    p.insert("totals".to_string(), Value::from(50));
+    p.insert("max_spread".to_string(), Value::from(32));
+    p.insert("leverage_min".to_string(), Value::from(100));
+
+    p.insert("open_mode".to_string(), Value::from(3));
     p.insert("sleep_seconds".to_string(), Value::from(30));
     p.insert("stop_loss".to_string(), Value::from(0.0));
+    p.insert("check_margin_for_add_orders".to_string(), Value::from(false));
 }
 
 fn repair_candidate(p: &mut Map<String, Value>, specs: &[ParamSpec]) {

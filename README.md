@@ -1,64 +1,36 @@
-# Amazing3.1 Backtest & Optimization
+# Amazing3.1 Rust Optimizer
 
-基于 `Amazing3.1.mq4` 逻辑的 Python 回测与参数优化项目，当前主要针对 `USDCHF M5`。
+本仓库当前仅保留 Rust 参数优化流程。
 
-## 1. 项目内容
+## 1. 项目结构
 
 - `Amazing3.1.mq4` / `Amazing3.1.mq4.bak`：原始 MT4 EA 文件
-- `amazing31_python.py`：EA 逻辑的 Python 版本
-- `backtest_usdchf.py`：USDCHF M5 回测引擎（含点差/滑点模型与数据下载）
-- `optimize_usdchf_params.py`：1Y 随机搜索 + 3Y/5Y验证
-- `optimize_usdchf_10y_pre_blowup.py`：10年严格不爆仓约束下最大利润优化
-- `optimize_usdchf_10y_target100_no_blowup.py`：目标“每年 >=100%”并尽量不爆仓的优化器
-- `download/`：历史数据缓存目录
+- `rust_optimizer/`：纯 Rust 参数优化器（数据读取、回测仿真、参数搜索）
+- `download/`：历史数据目录（CSV）
+- `optimized_params_audnzd_10y_dd80_rust.json`：Rust 优化结果示例
 
-## 2. 环境依赖
+## 2. 依赖
 
-- Python 3.10+
-- Node.js + npm（首次自动下载数据会用到 `npx dukascopy-node`）
-- Rust（若使用 Rust 参数优化器）
+- Rust（建议 stable）
+- Cargo
 
-建议在项目目录执行。
+## 3. 数据要求
 
-## 3. 快速开始
+优化器会从 `download/` 里选择 `merged` 数据文件。
 
-### 3.1 运行基础回测
+推荐文件命名：
 
-```bash
-python3 backtest_usdchf.py --years 1
-```
+- `{symbol_lower}-m5-bid-{start_date}-{end_date}-merged.csv`
+- 例如：`audnzd-m5-bid-2006-02-26-2026-02-26-merged.csv`
 
-说明：
-- 自动读取/下载 `USDCHF M5 bid` 数据
-- 输出净利润、回撤、胜率、PF、平均点差等
+CSV 字段格式（含表头）：
 
-### 3.2 通用参数优化（1Y搜索）
+- `timestamp,open,high,low,close`
+- `timestamp` 为毫秒时间戳
 
-```bash
-python3 optimize_usdchf_params.py --trials 30 --seed 20260226
-```
+## 4. 快速开始
 
-### 3.3 10年严格不爆仓 + 最大利润
-
-```bash
-python3 optimize_usdchf_10y_pre_blowup.py --trials 20 --seed 20260226
-```
-
-输出文件：
-- `optimized_params_10y_no_blowup_max_profit.json`
-
-### 3.4 每年目标 >=100% + 尽量不爆仓
-
-```bash
-python3 optimize_usdchf_10y_target100_no_blowup.py --trials 200 --seed 20260226
-```
-
-输出文件：
-- `optimized_params_10y_target100_no_blowup.json`
-
-`--trials` 越大，搜索更充分，但耗时更长。
-
-### 3.5 Rust 参数优化（AUDNZD，回撤<80%）
+### 4.1 直接运行
 
 ```bash
 cargo run --manifest-path rust_optimizer/Cargo.toml -- \
@@ -70,15 +42,10 @@ cargo run --manifest-path rust_optimizer/Cargo.toml -- \
   --out optimized_params_audnzd_10y_dd80_rust_t3000.json
 ```
 
-说明：
-- 纯 Rust 实现（数据读取、回测仿真、参数搜索均在 Rust）
-- 目标：`worst_year_max_drawdown_pct < 80` 约束下最大化利润
-- 搜索算法：`adaptive elite search + boundary refinement`
-- `--trials` 越大搜索越充分；`3000` 适合做深度遍历
-
-### 3.6 Rust release 二进制运行（更快）
+### 4.2 Release 二进制（更快）
 
 ```bash
+cargo build --manifest-path rust_optimizer/Cargo.toml --release
 ./rust_optimizer/target/release/rust_optimizer \
   --symbol AUDNZD \
   --years 10 \
@@ -88,31 +55,29 @@ cargo run --manifest-path rust_optimizer/Cargo.toml -- \
   --out optimized_params_audnzd_10y_dd80_rust_t3000.json
 ```
 
-`--trials` 在程序中仅校验 `>=1`，无硬编码上限；实际可运行次数受时间与机器性能限制。
+## 5. 参数说明
 
-## 4. 已有结果快照
+- `--symbol`：交易品种，默认 `AUDNZD`
+- `--years`：回测年份窗口，默认 `10`
+- `--trials`：搜索次数，默认 `120`，必须 `>= 1`
+- `--seed`：随机种子，默认 `20260226`
+- `--drawdown-limit`：年度最大回撤上限（百分比），默认 `80`
+- `--out`：输出 JSON 文件路径
+- `--data-file`：可选，手动指定 CSV 文件（跳过自动选择）
 
-基于当前仓库结果文件：
+## 6. 输出结果
 
-1. `optimized_params_10y_no_blowup_max_profit.json`
-- 10年分窗 `blowup_years = 0`
-- 总净利润 `sum_net_profit = 15417.53`
-- 最差年份净利润 `min_year_net_profit = 826.90`
+输出 JSON 包含：
 
-2. `optimized_params_10y_target100_no_blowup.json`（`--trials 200`）
-- 10年分窗 `blowup_years = 0`
-- 总净利润 `sum_net_profit = 18024.15`
-- 每年 >=100% 达标年数 `pass_target_years = 0 / 10`
-- 最差年份收益率 `min_year_return_pct = 8.57%`
+- `best_feasible`：满足回撤约束的最优参数（若存在）
+- `best_any`：不考虑约束时全局最优参数
+- `selected_result`：最终选中的参数集
+- `chosen_boundaries`：自适应边界收缩结果
+- `yearly_results`：逐年回测指标
 
-## 5. 数据说明
+## 7. 说明
 
-- 主要策略脚本当前使用 `USDCHF M5`
-- `download/` 下已有多个历史文件（含 merged 文件）
-- 若目标 merged 文件不存在，脚本会自动分年下载并合并
-
-## 6. 注意事项
-
-- 回测为仿真模型，结果不代表实盘收益。
-- “爆仓”在本项目中的判定：`equity <= 0` 或 `free_margin <= 0`。
-- 优化结果依赖随机种子与搜索次数；建议用更高 `--trials` 做复验。
+- 目标函数：在 `worst_year_max_drawdown_pct < drawdown_limit` 约束下最大化利润。
+- 算法：`adaptive elite search + boundary refinement`。
+- 当前仅优化 3 个参数：`step`、`lot`、`k_lot`；其余参数固定为 `Amazing3.1.mq4.bak` 默认值。
+- 回测与优化结果受数据质量、随机种子与 `--trials` 影响。
