@@ -16,6 +16,7 @@
 
 - Python 3.10+
 - Node.js + npm（首次自动下载数据会用到 `npx dukascopy-node`）
+- Rust（若使用 Rust 参数优化器）
 
 建议在项目目录执行。
 
@@ -57,6 +58,38 @@ python3 optimize_usdchf_10y_target100_no_blowup.py --trials 200 --seed 20260226
 
 `--trials` 越大，搜索更充分，但耗时更长。
 
+### 3.5 Rust 参数优化（AUDNZD，回撤<80%）
+
+```bash
+cargo run --manifest-path rust_optimizer/Cargo.toml -- \
+  --symbol AUDNZD \
+  --years 10 \
+  --trials 3000 \
+  --seed 20260226 \
+  --drawdown-limit 80 \
+  --out optimized_params_audnzd_10y_dd80_rust_t3000.json
+```
+
+说明：
+- 纯 Rust 实现（数据读取、回测仿真、参数搜索均在 Rust）
+- 目标：`worst_year_max_drawdown_pct < 80` 约束下最大化利润
+- 搜索算法：`adaptive elite search + boundary refinement`
+- `--trials` 越大搜索越充分；`3000` 适合做深度遍历
+
+### 3.6 Rust release 二进制运行（更快）
+
+```bash
+./rust_optimizer/target/release/rust_optimizer \
+  --symbol AUDNZD \
+  --years 10 \
+  --trials 3000 \
+  --seed 20260226 \
+  --drawdown-limit 80 \
+  --out optimized_params_audnzd_10y_dd80_rust_t3000.json
+```
+
+`--trials` 在程序中仅校验 `>=1`，无硬编码上限；实际可运行次数受时间与机器性能限制。
+
 ## 4. 已有结果快照
 
 基于当前仓库结果文件：
@@ -83,4 +116,3 @@ python3 optimize_usdchf_10y_target100_no_blowup.py --trials 200 --seed 20260226
 - 回测为仿真模型，结果不代表实盘收益。
 - “爆仓”在本项目中的判定：`equity <= 0` 或 `free_margin <= 0`。
 - 优化结果依赖随机种子与搜索次数；建议用更高 `--trials` 做复验。
-
